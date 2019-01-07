@@ -10,6 +10,7 @@ def create_app(config=None):
     db.init_app(app)
 
 
+
     from src.blueprint.catalog.routes import main_blueprint
     app.register_blueprint(main_blueprint)
 

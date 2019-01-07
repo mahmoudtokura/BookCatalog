@@ -9,11 +9,17 @@ class Publication(db.Model):
     name = db.Column(db.String(80), unique=True, nullable=False)
 
 
-    def __init__(self, name):
+    def __init__(self, name:str):
         self.name = name
 
     def __repr__(self):
         return f'<Publication {self.name}>'
+
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+        return self.name
 
 
 class Book(db.Model):
@@ -30,13 +36,18 @@ class Book(db.Model):
 
 
     #Relationship
-    publication_id = db.Column(db.Integer, db.ForeignKey('publication.id'), nullable=False)
-    publication = db.relationship('Publication', backref=db.backref('posts', lazy=True))
+    publication_id = db.Column(db.Integer, db.ForeignKey('publications.id'), nullable=False)
+    publication = db.relationship('Publication', backref=db.backref('books', lazy=True))
 
     def __init__(self, name):
         self.name = name
 
     def __repr__(self):
-        return f'<Publication {self.name}>'
+        return f'<Book {self.title}>'
+
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+        return self.name
 
 
